@@ -89,8 +89,18 @@ jobs:
   docs:
     name: Update Docs
     needs: publish
-    uses: ./.github/workflows/docs.yml
+    runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pages: write
-      id-token: write
+      actions: write
+
+    steps:
+      - name: Trigger docs deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'docs.yml',
+              ref: 'master',
+            })
