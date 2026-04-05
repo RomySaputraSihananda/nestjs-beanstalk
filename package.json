@@ -17,11 +17,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/romysaputrasihananda/nestjs-beanstalk.git"
+    "url": "https://github.com/RomySaputraSihananda/nestjs-beanstalk.git"
   },
   "homepage": "https://romysaputrasihanandaa.github.io/nestjs-beanstalk/",
   "bugs": {
-    "url": "https://github.com/romysaputrasihananda/nestjs-beanstalk/issues"
+    "url": "https://github.com/RomySaputraSihananda/nestjs-beanstalk/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
