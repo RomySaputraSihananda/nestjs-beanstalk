@@ -1,6 +1,6 @@
 {
   "name": "@romysaputrasihanandaa/nestjs-beanstalk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NestJS custom transport strategy for Beanstalkd — use @MessagePattern, @Payload and @Ctx just like any built-in transport.",
   "author": "romysaputrasihananda",
   "license": "MIT",
