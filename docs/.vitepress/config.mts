@@ -1,4 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const { version } = require('../../package.json')
 
 export default defineConfig({
   lang: 'en-US',
@@ -21,7 +25,7 @@ export default defineConfig({
       { text: 'API', link: '/api/server', activeMatch: '/api/' },
       { text: 'Advanced', link: '/advanced/retry-bury', activeMatch: '/advanced/' },
       {
-        text: 'v1.0.0',
+        text: `v${version}`,
         items: [
           { text: 'Changelog', link: 'https://github.com/romysaputrasihananda/nestjs-beanstalk/releases' },
           { text: 'npm', link: 'https://www.npmjs.com/package/@romysaputrasihanandaa/nestjs-beanstalk' },
