@@ -4,6 +4,25 @@
   "description": "NestJS custom transport strategy for Beanstalkd — use @MessagePattern, @Payload and @Ctx just like any built-in transport.",
   "author": "romysaputrasihananda",
   "license": "MIT",
+  "keywords": [
+    "nestjs",
+    "beanstalkd",
+    "beanstalk",
+    "microservice",
+    "transport",
+    "queue",
+    "job-queue",
+    "worker",
+    "fivebeans"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romysaputrasihananda/nestjs-beanstalk.git"
+  },
+  "homepage": "https://romysaputrasihanandaa.github.io/nestjs-beanstalk/",
+  "bugs": {
+    "url": "https://github.com/romysaputrasihananda/nestjs-beanstalk/issues"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
