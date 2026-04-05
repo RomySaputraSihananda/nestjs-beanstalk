@@ -82,8 +82,8 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            dist/**/*.js
-            dist/**/*.d.ts
+            dist/index.js
+            dist/index.d.ts
 
   # ─── Docs ─────────────────────────────────────────────────────────────────
   docs:
