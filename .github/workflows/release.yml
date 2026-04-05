@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to publish (e.g. v1.0.1) — must already exist'
+        required: true
+
+permissions:
+  contents: write  # needed to create GitHub Release
+  id-token: write  # needed for npm provenance
+
+jobs:
+  # ─── Test ─────────────────────────────────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    services:
+      beanstalkd:
+        image: schickling/beanstalkd
+        ports:
+          - 11300:11300
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test -- --forceExit
+
+      - name: Integration tests
+        run: npm run test:e2e -- --forceExit
+        env:
+          # Tests use 127.0.0.1 but the service maps to localhost
+          BEANSTALKD_HOST: 127.0.0.1
+          BEANSTALKD_PORT: 11300
+
+  # ─── Build & Publish ──────────────────────────────────────────────────────
+  publish:
+    name: Publish to npm
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (with npm registry auth)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/**/*.js
+            dist/**/*.d.ts
+
+  # ─── Docs ─────────────────────────────────────────────────────────────────
+  docs:
+    name: Update Docs
+    needs: publish
+    uses: ./.github/workflows/docs.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
